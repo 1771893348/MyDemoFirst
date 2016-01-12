@@ -40,27 +40,23 @@ public class ActivityBase extends Activity {
         super.onDestroy();
     }
 
-    public View getViewById(int viewId){
+    public View getViewById(int viewId) {
 
-        return  findViewById(viewId);
+        return findViewById(viewId);
     }
-    public void autoInjectAllField(Activity activity) throws IllegalAccessException ,IllegalArgumentException{
-        //�õ�Activity��Ӧ��class
+
+    public void autoInjectAllField(Activity activity) throws IllegalAccessException, IllegalArgumentException {
         Class clazz = this.getClass();
-        //�õ���Activity �����ֶ�
-        Field []fields = clazz.getDeclaredFields();
-        for (Field field : fields){
-            //�ж��ֶ��Ƿ��עInjectView
-            if (field.isAnnotationPresent(InjectView.class)){
-                Log.d("wgw_"+field.getName(),"is injectView");
-                //�����ע�ˣ��ͻ������id
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(InjectView.class)) {
+                Log.d("wgw_" + field.getName(), "is injectView");
                 InjectView injectView = field.getAnnotation(InjectView.class);
                 int id = injectView.id();
-                if (id>0){
-                    //�������˽�г�Ա������������
+                if (id > 0) {
                     field.setAccessible(true);
                     //
-                    field.set(activity,activity.findViewById(id));
+                    field.set(activity, activity.findViewById(id));
                 }
             }
         }
